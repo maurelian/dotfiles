@@ -346,7 +346,7 @@ you should place your code here."
 
   ;; My Org-mode customizations
   (setq org-directory "~/org")
-  (define-key global-map "C-c c" 'org-capture)
+  (global-set-key (kbd "C-c c") 'org-capture)
 
   ;; Notes setup
   (setq org-default-notes-file (concat org-directory "/notes/notes.org"))
@@ -358,17 +358,37 @@ you should place your code here."
 
   ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
   (setq org-capture-templates
-    (quote (
-      ("t" "todo" entry (file ( concat org-directory "/projects/inbox.org"))
-        "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-      ("r" "respond" entry (file ( concat org-directory "/projects/inbox.org"))
-        "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-      ("n" "note" entry (file "")
-        "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-      ("j" "Journal" entry (file+datetree ( concat org-directory "/projects/inbox.org"))
-        "* %?\n%U\n" :clock-in t :clock-resume t)
-      ("h" "Habit" entry (file ( concat org-directory "/projects/inbox.org"))
-        "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+      (quote
+       (("l" "link" entry
+         (file+headline "~/org/notes/links.org" "Buffer")
+         "* %^L")
+        ("t" "task" entry
+         (file+headline "~/org/projects/inbox.org" "Buffer")
+         "* TODO %^{title}
+    %?")
+        ("j" "journal" entry
+         (file+olp+datetree "~/org/notes/journal.org")
+         "* %^{title}
+    %U
+    %?")
+        ("b" "begin" entry
+         (file+olp+datetree "~/org/notes/journal.org")
+         "* *BEGIN*
+    %U
+  ** State
+     %?
+  ** Goals
+     ")
+        ("e" "end" entry
+         (file+olp+datetree "~/org/journal.org")
+         "* *END*
+    %U
+  ** Reflection
+     %?
+  ** Next
+     ")
+        )))
+
 
   ; Tags with fast selection keys
   (setq org-tag-alist (quote ((:startgroup)
