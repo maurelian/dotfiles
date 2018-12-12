@@ -39,18 +39,22 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
-     ;; auto-completion
-     ;; better-defaults
+     ;; auto-better
+     ;; completion-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     git
+     markdown
+     org
+     (shell :variables
+            shell-default-height 30
+             shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
+      syntax-checking
      ;; version-control
+     (version-control :variables
+                       version-control-diff-tool 'git-gutter+
+                       version-control-diff-side 'left
+                       version-control-global-margin t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
